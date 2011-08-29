@@ -1,0 +1,10 @@
+
+.DS_Store
+
+talk.tmproj
+
+*.pyc
+*.tmproj
+*.tmproj
+.project
+.pydevproject
