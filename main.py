@@ -28,7 +28,7 @@ class MainPage(webapp.RequestHandler):
   def get(self):
     template_values = {}
 
-    template_values['content'] = """<a href="/authentification">Authentificate</a>"""
+    template_values['content'] = """<h2><a href="/authentification">Authentificate</a></h2>"""
     
     path = os.path.join(os.path.dirname(__file__), 'templates/index.html')
     
@@ -55,7 +55,7 @@ class Authentification(webapp.RequestHandler):
     
     # Generate the authorization URL.
     approval_page_url = request_token.generate_authorization_url()
-    message = """<a href="%s">Request token for the Google Calendar Scope</a>"""
+    message = """<h2><a href="%s">Request token for the Google Calendar Scope</a></h2>"""
     template_values['content'] = message % approval_page_url
     
     path = os.path.join(os.path.dirname(__file__), 'templates/index.html')
