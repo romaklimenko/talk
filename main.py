@@ -16,11 +16,13 @@ from settings import DEBUG, SETTINGS
 
 settings_gql = "SELECT * FROM Settings WHERE name = :1"
 
-SETTINGS['APP_NAME'] = db.GqlQuery(settings_gql, "APP_NAME").get().value
-SETTINGS['CONSUMER_SECRET'] = db.GqlQuery(settings_gql, "CONSUMER_SECRET").get().value
-SETTINGS['CONSUMER_KEY'] = db.GqlQuery(settings_gql, "CONSUMER_KEY").get().value
-
-gcal = gdata.calendar.client.CalendarClient(source = SETTINGS['APP_NAME'])
+try:
+  SETTINGS['APP_NAME'] = db.GqlQuery(settings_gql, "APP_NAME").get().value
+  SETTINGS['CONSUMER_SECRET'] = db.GqlQuery(settings_gql, "CONSUMER_SECRET").get().value
+  SETTINGS['CONSUMER_KEY'] = db.GqlQuery(settings_gql, "CONSUMER_KEY").get().value
+  gcal = gdata.calendar.client.CalendarClient(source = SETTINGS['APP_NAME'])
+except:
+  pass
 
 class MainPage(webapp.RequestHandler):
   def get(self):
@@ -111,7 +113,7 @@ class XmppHandler(xmpp_handlers.CommandHandler):
             profile.save()
             xmpp.send_message(
                               jids=message.sender, 
-                              body='current calendar now is %s' % profile.current_calendar, 
+                              body='Current calendar switched to %s' % profile.current_calendar, 
                               from_jid="xmpptalk@appspot.com")
             return
 
@@ -121,7 +123,7 @@ class XmppHandler(xmpp_handlers.CommandHandler):
           profile.put()
           xmpp.send_message(
                             jids=message.sender, 
-                            body='current calendar now is %s' % profile.current_calendar, 
+                            body='Current calendar switched to %s' % profile.current_calendar, 
                             from_jid="xmpptalk@appspot.com")
           return
       xmpp.send_message(jids=message.sender, body='calendar not found', from_jid="xmpptalk@appspot.com")
